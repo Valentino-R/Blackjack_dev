@@ -267,10 +267,39 @@ void Deck::DisplayDeck()
     }
 }
 
+void Deck::shuffleDeck()
+{
+
+}
+
+void Game::dealCard()
+{
+
+}
+
+void Game::createPile()
+{
+    for (int i = 0; i < 5; i++)
+    {
+        Deck deck;
+        gamePile.push_back(deck);
+    }
+}
+
+void Game::diplaypile()
+{
+   for (int i = 0; i < gamePile.size(); i++)
+   {
+    std::cout << gamePile[i] << " ";
+   }
+} 
+
 int main()
 {
-    Deck deck1;
-    deck1.DisplayDeck();
+    
+    Game pile;
+    pile.createPile();
+    pile.diplaypile();
 
     return 0;
 }

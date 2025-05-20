@@ -56,6 +56,7 @@ class Deck{
 private:
     
     Card m_cards[52];
+    std::vector<Card> mixedDeck [52];
     
 public:
     
@@ -69,13 +70,15 @@ public:
     void setValue(Rank, int value, int index);
 
     Deck();
+    void createDeck();
     void DisplayDeck();
+    void shuffleDeck();
 };
 
 class Player{
 private:
     
-    std::vector<Card> playerHand{};
+    std::vector<Card> playerHand;
 
 public:
 
@@ -88,9 +91,10 @@ public:
 class Dealer{
 private:
 
-    std::vector<Card> dealerHand{};
+    std::vector<Card> dealerHand;
     
 public:
+    Deck getDeck() const;
     void drawTill();
     void drawCard();
     void displayCard();
@@ -99,10 +103,14 @@ public:
 class Game{
 private:
 
-    std::vector<Deck> gamePile;
+    
         
 public:
-    
+
+    std::vector<Deck> gamePile;
+    void createPile();
+    void diplaypile();    
+    void shufflePile();
     void dealCard();
     void getHandValue();
     void setHandValue();
