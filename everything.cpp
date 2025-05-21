@@ -288,7 +288,8 @@ void Game::createPile()
 
 void Game::diplaypile()
 {
-   for (int i = 0; i < gamePile.size(); i++)
+   std::ostream& operator<<(std::ostream& out, Game gamePile)
+    for (int i = 0; i < gamePile.size(); i++)
    {
     std::cout << gamePile[i].DisplayDeck() << " ";
    }
