@@ -288,7 +288,7 @@ void Game::createPile()
 
 void Game::diplaypile()
 {
-   for (int i = 0; i < gamePile.size(); i++)
+    for (int i = 0; i < gamePile.size(); i++)
    {
         gamePile[i].DisplayDeck();
    }

@@ -103,11 +103,11 @@ public:
 class Game{
 private:
 
-    
+    std::vector<Deck> gamePile;
         
 public:
 
-    std::vector<Deck> gamePile;
+    
     void createPile();
     void diplaypile();    
     void shufflePile();
