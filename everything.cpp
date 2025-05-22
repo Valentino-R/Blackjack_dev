@@ -290,13 +290,12 @@ void Game::diplaypile()
 {
    for (int i = 0; i < gamePile.size(); i++)
    {
-    std::cout << gamePile[i] << " ";
+    gamePile[i].DisplayDeck();
    }
 } 
 
 int main()
 {
-    
     Game pile;
     pile.createPile();
     pile.diplaypile();
