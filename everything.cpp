@@ -1,11 +1,17 @@
 #include "everything.h"
 
+Card::Card()
+{
+    m_rank = RANK;
+    m_suit = SUIT;
+}
+
+Card::Card(Suit suit, Rank rank) : m_suit(suit), m_rank(rank) {}
 
 void Card::DisplayCard()
 {
     PrintRank();
     PrintSuit();
-    printValue();
     std::cout << '\n';
 }
 
@@ -66,7 +72,7 @@ void Card::PrintRank()
     }
     else
     {
-        std::cout << "OwO";
+        std::cout << "OwO ";
     }    
 }
 
@@ -143,13 +149,13 @@ void Card::printValue()
     
 }
 
-Rank Card::getRank() const
+Card::Rank Card::getRank() const
 { return m_rank; }
 
 void Card::setRank(Rank rank)
 { m_rank = rank; }
 
-Suit Card::getSuit() const
+Card::Suit Card::getSuit() const
 { return m_suit; }
 
 void Card::setSuit(Suit suit)
@@ -222,7 +228,18 @@ void Card::setValue(Rank, int value)
 
 Deck::Deck()
 {
-    for (int col = (int)clubs; col <= (int)spades; col++)
+    m_drawedCard = 0;
+    for (int suit = Card::clubs; suit <= Card::spades; suit++)
+    {
+        for (int rank = Card::two; rank <= Card::Ace; rank++)
+        {
+            m_deck.push_back(Card(static_cast<Card::Suit>(suit),
+            static_cast<Card::Rank>(rank)));
+        } 
+    }
+}
+//ancienne methode
+/*for (int col = (int)clubs; col <= (int)spades; col++)
     {
         for (int row = (int)two; row <= (int)Ace; row++)
         {
@@ -234,7 +251,29 @@ Deck::Deck()
             int index = (13 * col) + row;
             m_cards[index] = card;
         } 
+    }*/
+
+void Deck::DisplayDeck()
+{
+    for (int col = (int)clubs; col <= (int)spades; col++)
+    {
+        for (int row = (int)two; row <= (int)Ace; row++)
+        {
+            int index = (13 * col) + row;
+            m_cards[index].DisplayCard();
+            std::cout << m_cards << '\n';
+        }
     }
+}
+
+void Deck::drawCard(Card drawedCard)
+{
+    drawedCard = 0;
+}
+
+void Deck::showDrawedCard()
+{
+    drawedCard.DisplayCard();
 }
 
 Rank Deck::getRank(int index) const
@@ -255,33 +294,17 @@ int Deck::getValue(int index) const
 void Deck::setValue(Rank rank, int value, int index)
 { m_cards[index].setValue(rank, value); }
 
-void Deck::DisplayDeck()
-{
-    for (int col = (int)clubs; col <= (int)spades; col++)
-    {
-        for (int row = (int)two; row <= (int)Ace; row++)
-        {
-            int index = (13 * col) + row;
-            m_cards[index].DisplayCard();
-        }
-    }
-}
-
 void Game::createPile()
 {
     for (int i = 0; i < 5; i++)
     {
         Deck deck;
-        gamePile.push_back(deck);
     }
 }
 
 void Game::diplaypile()
 {
-    for (int i = 0; i < gamePile.size(); i++)
-   {
-        gamePile[i].DisplayDeck();   
-   }
+    gamePile.DisplayDeck(); 
 } 
 
 void Game::dealCard()
@@ -291,9 +314,8 @@ void Game::dealCard()
 
 int main()
 {
-    Game pile;
-    pile.createPile();
-    pile.diplaypile();
+    Deck deck;
+    deck.showDrawedCard();
 
     return 0;
 }

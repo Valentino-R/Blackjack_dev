@@ -3,41 +3,45 @@
 #include <random>
 #include <vector>
 
-enum Suit{
-    clubs,
-    diamonds,
-    hearts,
-    spades,
-};
 
-enum Rank{
-    two, 
-    three, 
-    four, 
-    five, 
-    six,
-    seven,
-    eight,
-    nine, 
-    ten,
-    Jack,
-    Queen,
-    King, 
-    Ace,
-};
 
 class Card{
-private:
-
-    Rank m_rank;
-    Suit m_suit;
-    int m_value;
     
 public:
 
+    enum Suit{
+        clubs,
+        diamonds,
+        hearts,
+        spades,
+        SUIT
+    };
+
+    enum Rank{
+        two, 
+        three, 
+        four, 
+        five, 
+        six,
+        seven,
+        eight,
+        nine, 
+        ten,
+        Jack,
+        Queen,
+        King, 
+        Ace,
+        RANK
+    };
+
+    Card();
+    Card(Suit suit, Rank rank);
+
+    Rank rank;
     Rank getRank() const;
     void setRank(Rank);
     
+    Suit suit;
     Suit getSuit() const;
     void setSuit(Suit);
 
@@ -49,6 +53,12 @@ public:
     void PrintRank();
     void PrintSuit();
     void printValue();
+
+private:
+
+    Rank m_rank;
+    Suit m_suit;
+    int m_value;
 };
 
 
@@ -56,9 +66,12 @@ class Deck{
 private:
     
     Card m_cards[52];
-    std::vector<Card> mixedDeck [52];
+    std::vector<Card> m_deck;
+    int m_drawedCard;
     
 public:
+
+    Deck();
     
     Rank getRank(int index) const;
     void setRank(Rank, int index);
@@ -72,23 +85,15 @@ public:
     Deck();
     void createDeck();
     void DisplayDeck();
-};
 
-class Hand{
-private:
-
-    
-
-public:
-
-    std::vector<Card> cardsInHand;
-
+    void drawCard(Card);
+    void showDrawedCard();
 };
 
 class Player{
 private:
     
-    Hand playerHand;
+    
 
 public:
 
@@ -102,7 +107,7 @@ public:
 class Dealer{
 private:
 
-    Hand dealerHand;
+   
     
 public:
 
@@ -116,17 +121,19 @@ public:
 class Game{
 private:
 
-    std::vector<Deck> gamePile;
+    Deck gamePile;
         
 public:
 
     
+    std::vector<Card> playerHand;
+    std::vector<Card> dealerHand;
     void createPile();
     void diplaypile();    
     void shufflePile();
-    void pileCardNbr();
     void dealCard();
     void getHandValue();
     void setHandValue();
-    void displayHandValue();  
+    void displayHandValue();
+    void getTopCard();  
 };
