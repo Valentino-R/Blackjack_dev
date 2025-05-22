@@ -290,7 +290,7 @@ void Game::diplaypile()
 {
    for (int i = 0; i < gamePile.size(); i++)
    {
-    gamePile[i].DisplayDeck();
+        gamePile[i].DisplayDeck();
    }
 } 
 
