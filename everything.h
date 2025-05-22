@@ -72,31 +72,44 @@ public:
     Deck();
     void createDeck();
     void DisplayDeck();
-    void shuffleDeck();
+};
+
+class Hand{
+private:
+
+    
+
+public:
+
+    std::vector<Card> cardsInHand;
+
 };
 
 class Player{
 private:
     
-    std::vector<Card> playerHand;
+    Hand playerHand;
 
 public:
 
     void passTurn();
     void splitHand();
     void drawCard();
+    void showHandValue();
     void displayHand();
 };
 
 class Dealer{
 private:
 
-    std::vector<Card> dealerHand;
+    Hand dealerHand;
     
 public:
-    Deck getDeck() const;
+
+    void showHandValue();
     void drawTill();
     void drawCard();
+
     void displayCard();
 };
 
@@ -111,6 +124,7 @@ public:
     void createPile();
     void diplaypile();    
     void shufflePile();
+    void pileCardNbr();
     void dealCard();
     void getHandValue();
     void setHandValue();

@@ -267,16 +267,6 @@ void Deck::DisplayDeck()
     }
 }
 
-void Deck::shuffleDeck()
-{
-
-}
-
-void Game::dealCard()
-{
-
-}
-
 void Game::createPile()
 {
     for (int i = 0; i < 5; i++)
@@ -290,9 +280,14 @@ void Game::diplaypile()
 {
     for (int i = 0; i < gamePile.size(); i++)
    {
-        gamePile[i].DisplayDeck();
+        gamePile[i].DisplayDeck();   
    }
 } 
+
+void Game::dealCard()
+{
+    
+}
 
 int main()
 {
