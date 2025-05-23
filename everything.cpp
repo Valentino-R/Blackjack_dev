@@ -235,7 +235,7 @@ Deck::Deck()
 
 void Deck::DisplayDeck()
 {
-    for (auto& cards : m_deck) 
+    for (Card cards : m_deck) 
     {
         cards.DisplayCard();
     }   
@@ -249,12 +249,22 @@ void Deck::shuffleDeck()
     auto rng = std::default_random_engine { rd() };
     std::shuffle(m_deck.begin(), m_deck.end(), rng);
 }
+template <typename T>
+Card Deck::dealCard(const std::vector<T>& card)
+{
+    return m_deck[0]; 
+}
+
+void Deck::getCard()
+{
+    dealCard()
+}
 
 void Game::createPile()
 {
     for (int i = 0; i < 5; i++)
     {
-        Deck deck;
+        
     }
 }
 
@@ -263,11 +273,6 @@ void Game::diplaypile()
     gamePile.DisplayDeck(); 
 } 
 
-void Game::dealCard()
-{
-    
-}
-
 int main()
 {
     Deck deck;
@@ -275,5 +280,6 @@ int main()
     std::cout << " " << '\n';
     deck.DisplayDeck();
     std::cout << " " << '\n';
+    deck.dealCard();
     return 0;
 }

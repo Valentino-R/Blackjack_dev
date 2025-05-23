@@ -64,17 +64,22 @@ private:
 class Deck{
 private:
     
-    std::vector<Card> m_deck;
+    
     int m_drawedCard;
     
 public:
 
+    std::vector<Card> m_deck;
     Deck();
     void DisplayDeck();
     void shuffleDeck();
     bool moreCards() const;
 
-    Card dealCard();
+    void getCard();
+
+    template <typename T>
+    Card dealCard(const std::vector<T>& card);
+    std::vector<Card> playerHand;
 };
 
 class Player{
@@ -85,8 +90,8 @@ private:
 public:
 
     void passTurn();
-    void splitHand();
-    void drawCard();
+    Card splitHand();
+    Deck drawCard();
     void showHandValue();
     void displayHand();
 };
@@ -118,7 +123,6 @@ public:
     void createPile();
     void diplaypile();    
     void shufflePile();
-    void dealCard();
     void getHandValue();
     void setHandValue();
     void displayHandValue();
