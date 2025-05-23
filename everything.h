@@ -1,7 +1,9 @@
 #pragma once
 #include <iostream>
-#include <random>
 #include <vector>
+#include <algorithm>
+#include <random>
+
 
 
 
@@ -14,7 +16,6 @@ public:
         diamonds,
         hearts,
         spades,
-        SUIT
     };
 
     enum Rank{
@@ -31,10 +32,8 @@ public:
         Queen,
         King, 
         Ace,
-        RANK
     };
 
-    Card();
     Card(Suit suit, Rank rank);
 
     Rank rank;
@@ -65,29 +64,17 @@ private:
 class Deck{
 private:
     
-    Card m_cards[52];
     std::vector<Card> m_deck;
     int m_drawedCard;
     
 public:
 
     Deck();
-    
-    Rank getRank(int index) const;
-    void setRank(Rank, int index);
-    
-    Suit getSuit(int index) const;
-    void setSuit(Suit, int index);
-
-    int getValue(int index) const;
-    void setValue(Rank, int value, int index);
-
-    Deck();
-    void createDeck();
     void DisplayDeck();
+    void shuffleDeck();
+    bool moreCards() const;
 
-    void drawCard(Card);
-    void showDrawedCard();
+    Card dealCard();
 };
 
 class Player{

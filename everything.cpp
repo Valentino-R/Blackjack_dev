@@ -1,11 +1,5 @@
 #include "everything.h"
 
-Card::Card()
-{
-    m_rank = RANK;
-    m_suit = SUIT;
-}
-
 Card::Card(Suit suit, Rank rank) : m_suit(suit), m_rank(rank) {}
 
 void Card::DisplayCard()
@@ -238,61 +232,23 @@ Deck::Deck()
         } 
     }
 }
-//ancienne methode
-/*for (int col = (int)clubs; col <= (int)spades; col++)
-    {
-        for (int row = (int)two; row <= (int)Ace; row++)
-        {
-            Card card;
-            card.setRank((Rank)row);
-            card.setSuit((Suit)col);
-            card.setValue((Rank)row, row);
-            
-            int index = (13 * col) + row;
-            m_cards[index] = card;
-        } 
-    }*/
 
 void Deck::DisplayDeck()
 {
-    for (int col = (int)clubs; col <= (int)spades; col++)
+    for (auto& cards : m_deck) 
     {
-        for (int row = (int)two; row <= (int)Ace; row++)
-        {
-            int index = (13 * col) + row;
-            m_cards[index].DisplayCard();
-            std::cout << m_cards << '\n';
-        }
-    }
+        cards.DisplayCard();
+    }   
 }
 
-void Deck::drawCard(Card drawedCard)
+void Deck::shuffleDeck()
 {
-    drawedCard = 0;
+    m_drawedCard = 0;
+    
+    auto rd = std::random_device {};
+    auto rng = std::default_random_engine { rd() };
+    std::shuffle(m_deck.begin(), m_deck.end(), rng);
 }
-
-void Deck::showDrawedCard()
-{
-    drawedCard.DisplayCard();
-}
-
-Rank Deck::getRank(int index) const
-{ return m_cards[index].getRank(); }
-
-void Deck::setRank(Rank rank, int index)
-{ m_cards[index].setRank(rank); }
-
-Suit Deck::getSuit(int index) const
-{ return m_cards[index].getSuit(); }
-
-void Deck::setSuit(Suit suit , int index)
-{ m_cards[index].setSuit(suit); }
-
-int Deck::getValue(int index) const
-{ return m_cards[index].getValue(); }
-
-void Deck::setValue(Rank rank, int value, int index)
-{ m_cards[index].setValue(rank, value); }
 
 void Game::createPile()
 {
@@ -315,7 +271,9 @@ void Game::dealCard()
 int main()
 {
     Deck deck;
-    deck.showDrawedCard();
-
+    deck.shuffleDeck();
+    std::cout << " " << '\n';
+    deck.DisplayDeck();
+    std::cout << " " << '\n';
     return 0;
 }
