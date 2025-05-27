@@ -50,8 +50,7 @@ public:
     int getValue() const;
     void setValue(Rank, int value);
     
-
-    void DisplayCard();
+    void displayCard();
     void PrintRank();
     void PrintSuit();
     void printValue();
@@ -67,69 +66,56 @@ private:
 class Deck{
 private:
     
-    
-    int m_drawedCard;
-    
 public:
 
     std::vector<Card> m_deck;
     Deck();
-    void DisplayDeck();
+    void displayDeck();
     void shuffleDeck();
     bool moreCards() const;
 
     void getCard();
 
-
     Card drawedCard;
     Card dealCard();
     void printCardDelt();
-    std::vector<Card> playerHand;
 };
 
 class Player{
 private:
     
-    
+std::vector<Card> m_playerHand;
 
 public:
 
     void passTurn();
-    Card splitHand();
+    void splitHand();
     Deck drawCard();
     void showHandValue();
     void displayHand();
 };
 
-class Dealer{
-private:
-
-   
-    
-public:
-
-    void showHandValue();
-    void drawTill();
-    void drawCard();
-
-    void displayCard();
-};
-
 class Game{
 private:
 
-    Deck gamePile;
+    Deck m_gamePile;
         
 public:
 
-    
     std::vector<Card> playerHand;
+    void giveCardPlayer();
+    void printPlayerHand();
+
     std::vector<Card> dealerHand;
+    void giveCardDealer();
+    void printDealerHand();
+    void drawTill();
+    void drawCard();
+
     void createPile();
-    void diplaypile();    
+    void displayPile();   
     void shufflePile();
     void getHandValue();
     void setHandValue();
     void displayHandValue();
-    void getTopCard();  
 };

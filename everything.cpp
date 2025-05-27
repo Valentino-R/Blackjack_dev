@@ -8,7 +8,7 @@ Card::Card()
 
 Card::Card(Suit suit, Rank rank) : m_suit(suit), m_rank(rank) {}
 
-void Card::DisplayCard()
+void Card::displayCard()
 {
     PrintRank();
     PrintSuit();
@@ -238,18 +238,16 @@ Deck::Deck()
     }
 }
 
-void Deck::DisplayDeck()
+void Deck::displayDeck()
 {
     for (Card cards : m_deck) 
     {
-        cards.DisplayCard();
+        cards.displayCard();
     }   
 }
 
 void Deck::shuffleDeck()
-{
-    m_drawedCard = 0;
-    
+{   
     auto rd = std::random_device {};
     auto rng = std::default_random_engine { rd() };
     std::shuffle(m_deck.begin(), m_deck.end(), rng);
@@ -257,41 +255,84 @@ void Deck::shuffleDeck()
 
 Card Deck::dealCard()
 {
-    drawedCard = m_deck[0]; 
+    drawedCard = m_deck[m_deck.size()-1];
+    m_deck.pop_back();
 
     return drawedCard;
 }
 
 void Deck::printCardDelt()
 {
-    drawedCard.DisplayCard();
-}
-
-void Deck::getCard()
-{
-    
+    drawedCard.displayCard();
 }
 
 void Game::createPile()
 {
-    for (int i = 0; i < 5; i++)
-    {
-        
-    }
+        Deck deck;
+        deck.shuffleDeck();
+        m_gamePile = deck;  
 }
 
-void Game::diplaypile()
+void Game::displayPile()
 {
-    gamePile.DisplayDeck(); 
-} 
+   m_gamePile.displayDeck(); 
+}
+
+void Game::giveCardPlayer()
+{
+    playerHand.push_back(m_gamePile.dealCard());
+}
+
+void Game::printPlayerHand()
+{
+    if (playerHand.empty())
+    {
+        std::cout << "Hand empty\n";
+        return;
+    }
+    for (Card cards : playerHand) 
+    {
+        cards.displayCard();
+    }   
+}
+
+void Game::giveCardDealer()
+{
+    dealerHand.push_back(m_gamePile.dealCard());
+}
+
+void Game::printDealerHand()
+{
+    if (dealerHand.empty())
+    {
+        std::cout << "Hand empty\n";
+        return;
+    }
+    for (Card cards : dealerHand) 
+    {
+        cards.displayCard();
+    }   
+}
 
 int main()
 {
-    Deck deck;
+    Game game;
+    game.createPile();
+    game.printPlayerHand();
+    std::cout << " " << '\n';
+    game.giveCardPlayer();
+    game.printPlayerHand();
+    std::cout << " " << '\n';
+    game.giveCardPlayer();
+    game.printPlayerHand();
+
+    
+    return 0;
+}
+
+    /*Deck deck;
     deck.shuffleDeck();
     deck.DisplayDeck();
     std::cout << " " << '\n';
     deck.dealCard();
-    deck.printCardDelt();
-    return 0;
-}
+    deck.printCardDelt();*/
