@@ -16,6 +16,7 @@ public:
         diamonds,
         hearts,
         spades,
+        SUIT,
     };
 
     enum Rank{
@@ -32,8 +33,10 @@ public:
         Queen,
         King, 
         Ace,
+        RANK,
     };
 
+    Card();
     Card(Suit suit, Rank rank);
 
     Rank rank;
@@ -78,8 +81,8 @@ public:
     void getCard();
 
 
-    Card dealCard();
     Card drawedCard;
+    Card dealCard();
     void printCardDelt();
     std::vector<Card> playerHand;
 };

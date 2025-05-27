@@ -1,5 +1,11 @@
 #include "everything.h"
 
+Card::Card()
+{
+    m_suit = SUIT;
+    m_rank = RANK;
+}
+
 Card::Card(Suit suit, Rank rank) : m_suit(suit), m_rank(rank) {}
 
 void Card::DisplayCard()
@@ -252,6 +258,8 @@ void Deck::shuffleDeck()
 Card Deck::dealCard()
 {
     drawedCard = m_deck[0]; 
+
+    return drawedCard;
 }
 
 void Deck::printCardDelt()
@@ -280,6 +288,8 @@ void Game::diplaypile()
 int main()
 {
     Deck deck;
+    deck.shuffleDeck();
+    deck.DisplayDeck();
     std::cout << " " << '\n';
     deck.dealCard();
     deck.printCardDelt();
