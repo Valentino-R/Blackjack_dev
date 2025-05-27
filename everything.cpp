@@ -283,8 +283,25 @@ void Game::giveCardPlayer()
     playerHand.push_back(m_gamePile.dealCard());
 }
 
-void Game::printPlayerHand()
+int Game::calcPlayerHandValue()
 {
+    int value;
+    for (Card cards : playerHand) 
+    {
+        cards.setValue(rank, value);
+        m_playerHandValue += cards.getValue();
+    }
+    return m_playerHandValue;
+}
+
+void Game::printPlayerHandValue()
+{
+    calcPlayerHandValue();
+    
+}
+
+void Game::printPlayerHand()
+{   
     if (playerHand.empty())
     {
         std::cout << "Hand empty\n";
@@ -296,6 +313,11 @@ void Game::printPlayerHand()
     }   
 }
 
+void Game::displayPlayerHand()
+{
+
+}
+
 void Game::giveCardDealer()
 {
     dealerHand.push_back(m_gamePile.dealCard());
@@ -303,6 +325,7 @@ void Game::giveCardDealer()
 
 void Game::printDealerHand()
 {
+    std::cout << "Dealer Hand :\n";
     if (dealerHand.empty())
     {
         std::cout << "Hand empty\n";
@@ -314,19 +337,27 @@ void Game::printDealerHand()
     }   
 }
 
+void Game::calcDealerHandValue()
+{
+    int value;
+    for (Card cards : dealerHand) 
+    {
+        cards.setValue(rank, value);
+        m_dealerHandValue += cards.getValue();
+    }
+    std::cout << m_dealerHandValue << '\n';
+}
+
 int main()
 {
     Game game;
     game.createPile();
-    game.printPlayerHand();
+    game.giveCardPlayer();
     std::cout << " " << '\n';
     game.giveCardPlayer();
     game.printPlayerHand();
-    std::cout << " " << '\n';
-    game.giveCardPlayer();
     game.printPlayerHand();
 
-    
     return 0;
 }
 

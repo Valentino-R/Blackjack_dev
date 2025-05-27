@@ -99,23 +99,30 @@ class Game{
 private:
 
     Deck m_gamePile;
+    int m_playerHandValue {0};
+    int m_dealerHandValue {0};
+
+    Card::Rank rank;
         
 public:
 
     std::vector<Card> playerHand;
     void giveCardPlayer();
+    int calcPlayerHandValue();
+    void printPlayerHandValue();
     void printPlayerHand();
+    void displayPlayerHand();
 
     std::vector<Card> dealerHand;
     void giveCardDealer();
     void printDealerHand();
+    void calcDealerHandValue();
     void drawTill();
     void drawCard();
 
     void createPile();
     void displayPile();   
     void shufflePile();
-    void getHandValue();
     void setHandValue();
     void displayHandValue();
 };
