@@ -222,7 +222,6 @@ void Card::setValue(Rank, int value)
 
 Deck::Deck()
 {
-    m_drawedCard = 0;
     for (int suit = Card::clubs; suit <= Card::spades; suit++)
     {
         for (int rank = Card::two; rank <= Card::Ace; rank++)
@@ -249,15 +248,20 @@ void Deck::shuffleDeck()
     auto rng = std::default_random_engine { rd() };
     std::shuffle(m_deck.begin(), m_deck.end(), rng);
 }
-template <typename T>
-Card Deck::dealCard(const std::vector<T>& card)
+
+Card Deck::dealCard()
 {
-    return m_deck[0]; 
+    drawedCard = m_deck[0]; 
+}
+
+void Deck::printCardDelt()
+{
+    drawedCard.DisplayCard();
 }
 
 void Deck::getCard()
 {
-    dealCard()
+    
 }
 
 void Game::createPile()
@@ -276,10 +280,8 @@ void Game::diplaypile()
 int main()
 {
     Deck deck;
-    deck.shuffleDeck();
-    std::cout << " " << '\n';
-    deck.DisplayDeck();
     std::cout << " " << '\n';
     deck.dealCard();
+    deck.printCardDelt();
     return 0;
 }

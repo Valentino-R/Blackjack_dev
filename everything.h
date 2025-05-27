@@ -77,8 +77,10 @@ public:
 
     void getCard();
 
-    template <typename T>
-    Card dealCard(const std::vector<T>& card);
+
+    Card dealCard();
+    Card drawedCard;
+    void printCardDelt();
     std::vector<Card> playerHand;
 };
 
