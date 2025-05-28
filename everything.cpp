@@ -283,21 +283,20 @@ void Game::giveCardPlayer()
     playerHand.push_back(m_gamePile.dealCard());
 }
 
-int Game::calcPlayerHandValue()
+int Game::setPlayerHandValue()
 {
-    int value;
+    /*int value;
     for (Card cards : playerHand) 
     {
         cards.setValue(rank, value);
-        m_playerHandValue += cards.getValue();
-    }
-    return m_playerHandValue;
+    }*/
 }
 
-void Game::printPlayerHandValue()
+void Game::printPlayerValue()
 {
-    calcPlayerHandValue();
-    
+    Card cards;
+
+    m_playerHandValue = std::accumulate(playerHand.begin(), playerHand.end(), cards.getValue());
 }
 
 void Game::printPlayerHand()
@@ -315,7 +314,10 @@ void Game::printPlayerHand()
 
 void Game::displayPlayerHand()
 {
-
+    std::cout << "Player Hand :\n";
+    printPlayerHand();
+    printPlayerValue(); 
+    std::cout << "Value : " << m_playerHandValue << '\n';
 }
 
 void Game::giveCardDealer()
@@ -353,10 +355,11 @@ int main()
     Game game;
     game.createPile();
     game.giveCardPlayer();
+    game.displayPlayerHand();
     std::cout << " " << '\n';
     game.giveCardPlayer();
-    game.printPlayerHand();
-    game.printPlayerHand();
+    game.displayPlayerHand();
+    game.displayPlayerHand();
 
     return 0;
 }
