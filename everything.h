@@ -3,7 +3,6 @@
 #include <vector>
 #include <algorithm>
 #include <random>
-#include <numeric>
 
 
 
@@ -100,8 +99,8 @@ class Game{
 private:
 
     Deck m_gamePile;
-    int m_playerHandValue;
-    int m_dealerHandValue;
+    int m_playerHandValue {0};
+    int m_dealerHandValue {0};
 
     Card::Rank rank;
         
