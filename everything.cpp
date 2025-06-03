@@ -337,6 +337,23 @@ int Game::setPlayerHandValue()
             playerLoose = true;
         }  
     }
+    if(isHandSplit == true)
+    {
+        for (Card cards : splitedHand) 
+        {
+            cards.setValue(rank, value);
+            m_splitedHandValue += cards.getValue();
+            if (cards.getRank() == Card::Ace && m_splitedHandValue > 21)
+            {
+                m_splitedHandValue -= 10;
+            }
+            else if (m_splitedHandValue > 21)
+            {
+                playerLoose = true;
+            }  
+        }
+        return m_splitedHandValue; 
+    }
     return m_playerHandValue;
 }
 
@@ -348,6 +365,13 @@ void Game::printPlayerHand()
         std::cout << "Hand empty\n";
         return;
     }
+    else if (isHandSplit == true)
+    {
+        for (Card cards : splitedHand) 
+        {
+            cards.displayCard();
+        }
+    }
     for (Card cards : playerHand) 
     {
         cards.displayCard();
@@ -357,11 +381,15 @@ void Game::printPlayerHand()
 //display all the cards in the hand of the player and their combined value in the terminal.
 void Game::displayPlayerHand()
 {
-    setPlayerHandValue(); 
+    setPlayerHandValue();
 
-    if (playerLoose == true)
+    if(isHandSplit == true)
     {
-        std::cout << "Player Hand :\n";
+
+    }
+    if(playerLoose == true)
+    {
+        std::cout << "Player Hand 1 :\n";
         printPlayerHand();
         std::cout << "Value : " << m_playerHandValue << " points\n";
         std::cout << " " << '\n';
@@ -369,7 +397,7 @@ void Game::displayPlayerHand()
     }
     else
     {
-        std::cout << "Player Hand :\n";
+        std::cout << "Player Hand 1 :\n";
         printPlayerHand();
         std::cout << "Value : " << m_playerHandValue << " points\n";
         std::cout << " " << '\n';
@@ -377,14 +405,23 @@ void Game::displayPlayerHand()
 }
 
 //check if the player as 2 card whith the same rank in his hand then allow him to split his hand in 2 by sending one of the card into a secondary hand and drawing one card in each hands.
-void Game::playerSplit()
-{
-    std::cout << "You cannot split your hand. (pls choose another option this one hasen't been implemented for the moment.)\n";
+Card Game::playerSplit(Card::Rank)
+{  
+    if(playerHand[0].getRank() == playerHand[1].getRank())
+    {
+        isHandSplit = true;
+        splitedHand[0] = playerHand[1];
+        playerHand.pop_back();
+    }
+    else
+    {
+        std::cout << "you cannot split your hand\n";
+    }
 }
 
 void Game::playerChoices(bool& playerchoice)
 {
-    std::cout << "Chosse your next moove by entrering a number 1:Stand(endturn) / 2:Tap(Draw) / 3:Split : ";
+    std::cout << "Chosse your next moove by entrering a number 1:Stand(end your turn) / 2:Tap(Draw) / 3:Split : ";
     int choice;
     std::cin >> choice;
     switch (choice)
@@ -396,7 +433,7 @@ void Game::playerChoices(bool& playerchoice)
         giveCardPlayer();
         break;
     case 3:
-        playerSplit();
+        playerSplit(rank);
         break;
     default:
         std::cout << "pls enter a valid number (1-3)\n";

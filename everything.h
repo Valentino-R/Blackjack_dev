@@ -101,6 +101,7 @@ private:
 
     Deck m_gamePile;
     int m_playerHandValue {0};
+    int m_splitedHandValue {0};
     int m_dealerHandValue {0};
 
     Card::Rank rank;
@@ -109,12 +110,13 @@ public:
 
     std::vector<Card> playerHand;
     std::vector<Card> splitedHand;
+    bool isHandSplit {false};
     void giveCardPlayer();
     int setPlayerHandValue();
     void printPlayerHand();
     void displayPlayerHand();
     bool playerStand();
-    void playerSplit();
+    Card playerSplit(Card::Rank);
     void playerSurrender();
     void playerChoices(bool& playerchoice);
     bool playerLoose {false};
