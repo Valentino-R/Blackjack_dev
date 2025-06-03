@@ -116,7 +116,7 @@ public:
     std::vector<Card> dealerHand;
     void giveCardDealer();
     void printDealerHand();
-    void calcDealerHandValue();
+    void setDealerHandValue();
     void drawTill();
     void drawCard();
 
@@ -125,4 +125,6 @@ public:
     void shufflePile();
     void setHandValue();
     void displayHandValue();
+
+    void setupGame();
 };

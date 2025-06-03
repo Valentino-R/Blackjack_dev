@@ -1,5 +1,6 @@
 #include "everything.h"
 
+//Card constructor link m_suit and m_rank to suit and rank enums
 Card::Card()
 {
     m_suit = SUIT;
@@ -8,6 +9,7 @@ Card::Card()
 
 Card::Card(Suit suit, Rank rank) : m_suit(suit), m_rank(rank) {}
 
+//display the card in terminal by calling the printrank and printsuit function
 void Card::displayCard()
 {
     PrintRank();
@@ -15,7 +17,7 @@ void Card::displayCard()
     std::cout << '\n';
 }
 
-
+//sent to the terminal a text equivalent to the rank of the card
 void Card::PrintRank()
 {
     if (m_rank == two)
@@ -76,6 +78,7 @@ void Card::PrintRank()
     }    
 }
 
+//sent to the terminal a text equivalent to the suit of the card
 void Card::PrintSuit()
 {
     if (m_suit == clubs)
@@ -149,21 +152,27 @@ void Card::printValue()
     
 }
 
+//m_rank getter 
 Card::Rank Card::getRank() const
 { return m_rank; }
 
+//m_rank setter
 void Card::setRank(Rank rank)
 { m_rank = rank; }
 
+//m_suit getter 
 Card::Suit Card::getSuit() const
 { return m_suit; }
 
+//m_rank setter
 void Card::setSuit(Suit suit)
 { m_suit = suit; }
 
+//m_value getter
 int Card::getValue() const
 { return m_value; }
 
+//set the value of a card in fonction of his rank 
 void Card::setValue(Rank, int value)
 {
     getRank();
@@ -226,6 +235,7 @@ void Card::setValue(Rank, int value)
     m_value = value;    
 }
 
+//deck constructor that loop through both suit and rank enum and pushback the created card in a vector
 Deck::Deck()
 {
     for (int suit = Card::clubs; suit <= Card::spades; suit++)
@@ -238,6 +248,7 @@ Deck::Deck()
     }
 }
 
+//display the deck by looping throught it and calling the displaycard function
 void Deck::displayDeck()
 {
     for (Card cards : m_deck) 
@@ -246,6 +257,9 @@ void Deck::displayDeck()
     }   
 }
 
+//shuffel the deck whith the shuffle function, random_device and default_random_engine. 
+//random_device is seeded in default_random_engine to ensure a differant shuffle each time the function is called.
+//default_random_engine them serv as the unit of the shuffle. 
 void Deck::shuffleDeck()
 {   
     auto rd = std::random_device {};
@@ -253,6 +267,7 @@ void Deck::shuffleDeck()
     std::shuffle(m_deck.begin(), m_deck.end(), rng);
 }
 
+//return a copy of the last card of the deck then suppress hit from the deck whith the pushback function.
 Card Deck::dealCard()
 {
     drawedCard = m_deck[m_deck.size()-1];
@@ -261,11 +276,13 @@ Card Deck::dealCard()
     return drawedCard;
 }
 
+//display the card drawed in the terminal by calling the displaycard function.
 void Deck::printCardDelt()
 {
     drawedCard.displayCard();
 }
 
+//create a pile by instantiating a deck object, shuffeling it and assigning it to m_gamepile.
 void Game::createPile()
 {
         Deck deck;
@@ -273,16 +290,19 @@ void Game::createPile()
         m_gamePile = deck;  
 }
 
+// display all the card in m_gamepile by calling the displaydeck function.
 void Game::displayPile()
 {
    m_gamePile.displayDeck(); 
 }
 
+//give a card to the player whith the push_back function to the playerHand vector by calling the dealcard function to m_gamePile. 
 void Game::giveCardPlayer()
 {
     playerHand.push_back(m_gamePile.dealCard());
 }
 
+//set the value of player hand by adding the value of each card in the player hand.
 int Game::setPlayerHandValue()
 {
     int value;
@@ -295,6 +315,7 @@ int Game::setPlayerHandValue()
     return m_playerHandValue;
 }
 
+//print the cards in the player hand in the terminal by looping throught the playerHand vector and calling the displayCard function.
 void Game::printPlayerHand()
 {   
     if (playerHand.empty())
@@ -308,6 +329,7 @@ void Game::printPlayerHand()
     }   
 }
 
+//display all the cards in the hand of the player and their combined value in the terminal.
 void Game::displayPlayerHand()
 {
     std::cout << "Player Hand :\n";
@@ -316,11 +338,13 @@ void Game::displayPlayerHand()
     std::cout << "Value : " << m_playerHandValue << " points\n";
 }
 
+//give a card to the dealer whith the push_back function to the dealerHand vector by calling the dealcard function to m_gamePile.
 void Game::giveCardDealer()
 {
     dealerHand.push_back(m_gamePile.dealCard());
 }
 
+//print the cards in the dealer hand in the terminal by looping throught the dealerHand vector and calling the displayCard function.
 void Game::printDealerHand()
 {
     std::cout << "Dealer Hand :\n";
@@ -335,7 +359,8 @@ void Game::printDealerHand()
     }   
 }
 
-void Game::calcDealerHandValue()
+//set the value of player hand by adding the value of each card in the player hand.
+void Game::setDealerHandValue()
 {
     int value;
     for (Card cards : dealerHand) 
@@ -344,6 +369,14 @@ void Game::calcDealerHandValue()
         m_dealerHandValue += cards.getValue();
     }
     std::cout << m_dealerHandValue << '\n';
+}
+
+//setup a game by creating a pile and then giving 2 cards to the player and 1 to the dealer.
+void Game::setupGame()
+{
+    createPile();
+    giveCardPlayer();
+    giveCardDealer();
 }
 
 int main()
