@@ -118,7 +118,6 @@ public:
     void playerSurrender();
     void playerChoices(bool& playerchoice);
     bool playerLoose {false};
-    bool playerEndTurn {false};
 
     std::vector<Card> dealerHand;
     void giveCardDealer();
