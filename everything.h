@@ -70,6 +70,7 @@ public:
 
     std::vector<Card> m_deck;
     Deck();
+    void pileOfDecks();
     void displayDeck();
     void shuffleDeck();
     bool moreCards() const;
@@ -107,18 +108,25 @@ private:
 public:
 
     std::vector<Card> playerHand;
+    std::vector<Card> splitedHand;
     void giveCardPlayer();
     int setPlayerHandValue();
-    void printPlayerValue();
     void printPlayerHand();
     void displayPlayerHand();
+    bool playerStand();
+    void playerSplit();
+    void playerSurrender();
+    void playerChoices(bool& playerchoice);
+    bool playerLoose {false};
+    bool playerEndTurn {false};
 
     std::vector<Card> dealerHand;
     void giveCardDealer();
+    int setDealerHandValue();
     void printDealerHand();
-    void setDealerHandValue();
+    void displayDealerHand();
     void drawTill();
-    void drawCard();
+    bool dealerLoose {false};
 
     void createPile();
     void displayPile();   
@@ -127,4 +135,7 @@ public:
     void displayHandValue();
 
     void setupGame();
+    void comparePlayerAndDealerHandValue();
+    void checkWinner();
+    bool playerWin {false};
 };

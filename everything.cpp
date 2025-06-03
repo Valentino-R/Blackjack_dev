@@ -248,6 +248,21 @@ Deck::Deck()
     }
 }
 
+void Deck::pileOfDecks()
+{
+    for (int i = 0; i < 5; i++)
+    {
+        for (int suit = Card::clubs; suit <= Card::spades; suit++)
+        {
+            for (int rank = Card::two; rank <= Card::Ace; rank++)
+            {
+                m_deck.push_back(Card(static_cast<Card::Suit>(suit),
+                static_cast<Card::Rank>(rank)));
+            } 
+        }
+    }  
+}
+
 //display the deck by looping throught it and calling the displaycard function
 void Deck::displayDeck()
 {
@@ -286,8 +301,9 @@ void Deck::printCardDelt()
 void Game::createPile()
 {
         Deck deck;
+        deck.pileOfDecks();
         deck.shuffleDeck();
-        m_gamePile = deck;  
+        m_gamePile = deck;
 }
 
 // display all the card in m_gamepile by calling the displaydeck function.
@@ -311,6 +327,14 @@ int Game::setPlayerHandValue()
     {
         cards.setValue(rank, value);
         m_playerHandValue += cards.getValue();
+        if (cards.getRank() == Card::Ace && m_playerHandValue > 21)
+        {
+            m_playerHandValue -= 10;
+        }
+        else if (m_playerHandValue > 21)
+        {
+            playerLoose = true;
+        }  
     }
     return m_playerHandValue;
 }
@@ -332,22 +356,82 @@ void Game::printPlayerHand()
 //display all the cards in the hand of the player and their combined value in the terminal.
 void Game::displayPlayerHand()
 {
-    std::cout << "Player Hand :\n";
-    printPlayerHand();
     setPlayerHandValue(); 
-    std::cout << "Value : " << m_playerHandValue << " points\n";
+
+    if (playerLoose == true)
+    {
+        std::cout << "Player Hand :\n";
+        printPlayerHand();
+        std::cout << "Value : " << m_playerHandValue << " points\n";
+        std::cout << " " << '\n';
+        std::cout << "Player loose !!\n";
+    }
+    else
+    {
+        std::cout << "Player Hand :\n";
+        printPlayerHand();
+        std::cout << "Value : " << m_playerHandValue << " points\n";
+        std::cout << " " << '\n';
+    }
 }
 
+void Game::playerSplit()
+{
+    std::cout << "You cannot split your hand. (pls choose another option this one hasen't been implemented for the moment.)\n";
+}
+
+void Game::playerChoices(bool& playerchoice)
+{
+    std::cout << "Chosse your next moove by entrering a number 1:Stand(endturn) / 2:Tap(Draw) / 3:Split : ";
+    int choice;
+    std::cin >> choice;
+    switch (choice)
+    {
+    case 1:
+        playerchoice = false;
+        break;
+    case 2:
+        giveCardPlayer();
+        break;
+    case 3:
+        playerSplit();
+        break;
+    default:
+        std::cout << "pls enter a valid number (1-3)\n";
+        break;
+    } 
+}
 //give a card to the dealer whith the push_back function to the dealerHand vector by calling the dealcard function to m_gamePile.
 void Game::giveCardDealer()
 {
     dealerHand.push_back(m_gamePile.dealCard());
 }
 
+//set the value of player hand by adding the value of each card in the player hand.
+int Game::setDealerHandValue()
+{
+    int value;
+    m_dealerHandValue = 0;
+    for (Card cards : dealerHand) 
+    {
+        cards.setValue(rank, value);
+        m_dealerHandValue += cards.getValue();
+        if (cards.getRank() == Card::Ace && m_dealerHandValue > 21)
+        {
+            m_dealerHandValue -= 10;
+        }
+        else if (m_dealerHandValue > 21)
+        {
+            dealerLoose = true;
+        }   
+    }
+    return m_dealerHandValue;
+    return dealerLoose;
+}
+
 //print the cards in the dealer hand in the terminal by looping throught the dealerHand vector and calling the displayCard function.
 void Game::printDealerHand()
 {
-    std::cout << "Dealer Hand :\n";
     if (dealerHand.empty())
     {
         std::cout << "Hand empty\n";
@@ -359,16 +443,34 @@ void Game::printDealerHand()
     }   
 }
 
-//set the value of player hand by adding the value of each card in the player hand.
-void Game::setDealerHandValue()
+void Game::displayDealerHand()
 {
-    int value;
-    for (Card cards : dealerHand) 
+    setDealerHandValue(); 
+
+    if (dealerLoose == true)
     {
-        cards.setValue(rank, value);
-        m_dealerHandValue += cards.getValue();
+        std::cout << "Dealer Hand :\n";
+        printDealerHand();
+        std::cout << "Value : " << m_dealerHandValue << " points\n";
+        std::cout << " " << '\n';
+        std::cout << "Dealer loose !!\n";
     }
-    std::cout << m_dealerHandValue << '\n';
+    else
+    {
+        std::cout << "Dealer Hand :\n";
+        printDealerHand();
+        std::cout << "Value : " << m_dealerHandValue << " points\n";
+        std::cout << " " << '\n';
+    }
+}
+
+void Game::drawTill()
+{
+    while (m_dealerHandValue < 17)
+    {
+        giveCardDealer();
+        setDealerHandValue();
+    }
 }
 
 //setup a game by creating a pile and then giving 2 cards to the player and 1 to the dealer.
@@ -377,21 +479,62 @@ void Game::setupGame()
     createPile();
     giveCardPlayer();
     giveCardDealer();
+    giveCardPlayer();
+}
+
+void Game::checkWinner()
+{
+    setPlayerHandValue();
+    setDealerHandValue();
+
+    if (m_playerHandValue > m_dealerHandValue)
+    {
+        std::cout << "Player win\n";
+    }
+    else if (m_playerHandValue == m_dealerHandValue)
+    {
+        std::cout << "Execo\n";
+    }
+    
+    else 
+    {
+        std::cout << "Dealer win\n";
+    }
+      
 }
 
 int main()
 {
+    bool playerturn {true};
+    
     Game game;
     game.createPile();
+    game.setupGame();
+    game.displayDealerHand();
+    std::cout << " " << '\n';
+
+    while (playerturn == true)
+    {
+        game.displayPlayerHand();
+        game.playerChoices(playerturn);
+        std::cout << " " << '\n';
+    }
+    
+    game.drawTill();
+    game.displayPlayerHand();
+    game.displayDealerHand();
+    game.checkWinner();
+
+    return 0;
+}
+
+    /*game.createPile();
     game.giveCardPlayer();
     game.displayPlayerHand();
     std::cout << " " << '\n';
     game.giveCardPlayer();
     game.displayPlayerHand();
-    game.displayPlayerHand();
-
-    return 0;
-}
+    game.displayPlayerHand();*/
 
     /*Deck deck;
     deck.shuffleDeck();
