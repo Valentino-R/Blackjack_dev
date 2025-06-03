@@ -248,6 +248,7 @@ Deck::Deck()
     }
 }
 
+//create a pile of 5 deck
 void Deck::pileOfDecks()
 {
     for (int i = 0; i < 5; i++)
@@ -375,6 +376,7 @@ void Game::displayPlayerHand()
     }
 }
 
+//check if the player as 2 card whith the same rank in his hand then allow him to split his hand in 2 by sending one of the card into a secondary hand and drawing one card in each hands.
 void Game::playerSplit()
 {
     std::cout << "You cannot split your hand. (pls choose another option this one hasen't been implemented for the moment.)\n";
@@ -443,6 +445,7 @@ void Game::printDealerHand()
     }   
 }
 
+//display all the cards in the hand of the dealer and their combined value in the terminal.
 void Game::displayDealerHand()
 {
     setDealerHandValue(); 
@@ -464,6 +467,7 @@ void Game::displayDealerHand()
     }
 }
 
+//check the value of m_dealerHandValue and add a card to the dealer hand till the value of his hand reach a least 17. 
 void Game::drawTill()
 {
     while (m_dealerHandValue < 17)
@@ -482,6 +486,7 @@ void Game::setupGame()
     giveCardPlayer();
 }
 
+//check the winner by comparing the value m_playerHandValue and m_dealerHandValue.
 void Game::checkWinner()
 {
     setPlayerHandValue();
@@ -495,7 +500,6 @@ void Game::checkWinner()
     {
         std::cout << "Execo\n";
     }
-    
     else 
     {
         std::cout << "Dealer win\n";
