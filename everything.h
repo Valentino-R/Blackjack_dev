@@ -82,18 +82,36 @@ public:
     void printCardDelt();
 };
 
+class Hand{
+private:
+    
+    int m_value;
+    std::vector<Card> m_cardInHand;
+    Card::Rank rank;
+    
+public:
+    
+    int calcHandValue();
+    void passTurn();
+    void drawCard();
+    void splitHand();
+    void doubleDown();
+    bool surrender();
+};
+    
 class Player{
 private:
     
-std::vector<Card> m_playerHand;
+    Hand m_playerHand;
+    std::vector<Hand> m_playerHands;
+    int m_reserv {100};
+    int m_bet {10};
 
 public:
 
-    void passTurn();
-    void splitHand();
-    Deck drawCard();
-    void showHandValue();
     void displayHand();
+    Hand chooseHand();    
+    bool isSplit {false};
 };
 
 class Game{
@@ -120,7 +138,7 @@ public:
     void printPlayerHand();
     void displayPlayerHand();
     bool playerStand();
-    void playerSplit(Card::Rank);
+    void playerSplit();
     void playerSurrender();
     void playerChoices(bool& playerchoice);
     bool playerLoose {false};

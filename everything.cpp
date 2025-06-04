@@ -298,6 +298,26 @@ void Deck::printCardDelt()
     drawedCard.displayCard();
 }
 
+int Hand::calcHandValue()
+{
+    int value;
+    m_value = 0; 
+    for (Card cards : m_cardInHand) 
+    {
+        cards.setValue(rank, value);
+        m_value += cards.getValue();
+        if (cards.getRank() == Card::Ace && m_value > 21)
+        {
+            m_value -= 10;
+        }
+        else if (m_value > 21)
+        {
+            //playerLoose = true;
+        }  
+    }
+    return m_value;
+}
+
 //create a pile by instantiating a deck object, shuffeling it and assigning it to m_gamepile.
 void Game::createPile()
 {
@@ -420,7 +440,7 @@ void Game::displayPlayerHand()
 }
 
 //check if the player as 2 card whith the same rank in his hand then allow him to split his hand in 2 by sending one of the card into a secondary hand and drawing one card in each hands.
-void Game::playerSplit(Card::Rank)
+void Game::playerSplit()
 {  
     Card splitedCard;
 
@@ -442,35 +462,25 @@ void Game::playerSplit(Card::Rank)
 
 void Game::playerChoices(bool& playerchoice)
 {
-    std::cout << "Choose witch of your hand want to play next : ";
-    int hand;
-    std::cin >> hand;
-    switch (hand)
+
+    std::cout << "Choose your next moove by entrering a number 1:Stand(end your turn) / 2:Tap(Draw) / 3:Split : ";
+    int choice;
+    std::cin >> choice;
+    switch (choice)
     {
-    case 1 :
-        std::cout << "Choose your next moove by entrering a number 1:Stand(end your turn) / 2:Tap(Draw) / 3:Split : ";
-        int choice;
-        std::cin >> choice;
-        switch (choice)
-        {
-        case 1:
-            playerchoice = false;
-            break;
-        case 2:
-            giveCardPlayer();
-            break;
-        case 3:
-            playerSplit(rank);
-            break;
-        default:
-            std::cout << "pls enter a valid number (1-3)\n";
-            break;
-        }
+    case 1:
+        playerchoice = false;
         break;
-    
+    case 2:
+        giveCardPlayer();
+        break;
+    case 3:
+        playerSplit();
+        break;
     default:
+        std::cout << "pls enter a valid number (1-3)\n";
         break;
-    } 
+    }
 }
 //give a card to the dealer whith the push_back function to the dealerHand vector by calling the dealcard function to m_gamePile.
 void Game::giveCardDealer()
