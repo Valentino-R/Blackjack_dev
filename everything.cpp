@@ -248,10 +248,10 @@ Deck::Deck()
     }
 }
 
-//create a pile of 5 deck
+//create a pile of 4 decks
 void Deck::pileOfDecks()
 {
-    for (int i = 0; i < 5; i++)
+    for (int i = 0; i < 4; i++)
     {
         for (int suit = Card::clubs; suit <= Card::spades; suit++)
         {
@@ -316,66 +316,65 @@ void Game::displayPile()
 //give a card to the player whith the push_back function to the playerHand vector by calling the dealcard function to m_gamePile. 
 void Game::giveCardPlayer()
 {
-    playerHand.push_back(m_gamePile.dealCard());
+    firstHand.push_back(m_gamePile.dealCard());
 }
 
 //set the value of player hand by adding the value of each card in the player hand.
 int Game::setPlayerHandValue()
 {
     int value;
-    m_playerHandValue = 0;
-    for (Card cards : playerHand) 
+    m_firstHandValue = 0;
+    for (Card cards : firstHand) 
     {
         cards.setValue(rank, value);
-        m_playerHandValue += cards.getValue();
-        if (cards.getRank() == Card::Ace && m_playerHandValue > 21)
+        m_firstHandValue += cards.getValue();
+        if (cards.getRank() == Card::Ace && m_firstHandValue > 21)
         {
-            m_playerHandValue -= 10;
+            m_firstHandValue -= 10;
         }
-        else if (m_playerHandValue > 21)
+        else if (m_firstHandValue > 21)
         {
             playerLoose = true;
         }  
     }
-    if(isHandSplit == true)
+    if(firstSplit == true)
     {
-        for (Card cards : splitedHand) 
+        for (Card cards : secondHand) 
         {
             cards.setValue(rank, value);
-            m_splitedHandValue += cards.getValue();
-            if (cards.getRank() == Card::Ace && m_splitedHandValue > 21)
+            m_secondHandValue += cards.getValue();
+            if (cards.getRank() == Card::Ace && m_secondHandValue > 21)
             {
-                m_splitedHandValue -= 10;
+                m_secondHandValue -= 10;
             }
-            else if (m_splitedHandValue > 21)
+            else if (m_secondHandValue > 21)
             {
                 playerLoose = true;
             }  
         }
-        return m_splitedHandValue; 
+        return m_secondHandValue; 
     }
-    return m_playerHandValue;
+    return m_firstHandValue;
 }
 
 //print the cards in the player hand in the terminal by looping throught the playerHand vector and calling the displayCard function.
 void Game::printPlayerHand()
 {   
-    if (playerHand.empty())
+    
+    if (firstHand.empty())
     {
         std::cout << "Hand empty\n";
         return;
     }
-    else if (isHandSplit == true)
+    /*else if (firstSplit == true)
     {
-        for (Card cards : splitedHand) 
+        std::cout << " " << '\n';
+        for (Card cards : secondHand) 
         {
             cards.displayCard();
         }
-    }
-    for (Card cards : playerHand) 
-    {
-        cards.displayCard();
-    }   
+    }*/
+       
 }
 
 //display all the cards in the hand of the player and their combined value in the terminal.
@@ -383,60 +382,93 @@ void Game::displayPlayerHand()
 {
     setPlayerHandValue();
 
-    if(isHandSplit == true)
+    if(firstSplit == false)
     {
-
+        std::cout << "Player Hand 1 : " << m_firstHandValue << " points\n";
+        for (Card cards : firstHand) 
+        {
+            cards.displayCard();
+        }
+        std::cout << " " << '\n';
     }
+    else if (firstSplit == true)
+    {
+        std::cout << "Player Hand 1 : " << m_firstHandValue << " points\n";
+        for (Card cards : firstHand) 
+        {
+            cards.displayCard();
+        }
+        std::cout << " " << '\n';
+        std::cout << "Player Hand 2 : " << m_secondHandValue << " points\n";
+        for (Card cards : secondHand) 
+        {
+            cards.displayCard();
+        } 
+    }
+    
     if(playerLoose == true)
     {
-        std::cout << "Player Hand 1 :\n";
+        std::cout << "Player Hand 1 : " << m_firstHandValue << " points\n";
         printPlayerHand();
-        std::cout << "Value : " << m_playerHandValue << " points\n";
         std::cout << " " << '\n';
         std::cout << "Player loose !!\n";
     }
     else
     {
-        std::cout << "Player Hand 1 :\n";
-        printPlayerHand();
-        std::cout << "Value : " << m_playerHandValue << " points\n";
-        std::cout << " " << '\n';
+        
     }
 }
 
 //check if the player as 2 card whith the same rank in his hand then allow him to split his hand in 2 by sending one of the card into a secondary hand and drawing one card in each hands.
-Card Game::playerSplit(Card::Rank)
+void Game::playerSplit(Card::Rank)
 {  
-    if(playerHand[0].getRank() == playerHand[1].getRank())
+    Card splitedCard;
+
+    if(firstHand[0].getValue() == firstHand[1].getValue() && firstSplit == false)
     {
-        isHandSplit = true;
-        splitedHand[0] = playerHand[1];
-        playerHand.pop_back();
+        firstSplit = true;
+        splitedCard = firstHand[firstHand.size()-1];
+        firstHand.pop_back();
+        firstHand.push_back(m_gamePile.dealCard());
+        secondHand.push_back(splitedCard);
+        secondHand.push_back(m_gamePile.dealCard());
     }
     else
     {
+        std::cout << " \n";
         std::cout << "you cannot split your hand\n";
     }
 }
 
 void Game::playerChoices(bool& playerchoice)
 {
-    std::cout << "Chosse your next moove by entrering a number 1:Stand(end your turn) / 2:Tap(Draw) / 3:Split : ";
-    int choice;
-    std::cin >> choice;
-    switch (choice)
+    std::cout << "Choose witch of your hand want to play next : ";
+    int hand;
+    std::cin >> hand;
+    switch (hand)
     {
-    case 1:
-        playerchoice = false;
+    case 1 :
+        std::cout << "Choose your next moove by entrering a number 1:Stand(end your turn) / 2:Tap(Draw) / 3:Split : ";
+        int choice;
+        std::cin >> choice;
+        switch (choice)
+        {
+        case 1:
+            playerchoice = false;
+            break;
+        case 2:
+            giveCardPlayer();
+            break;
+        case 3:
+            playerSplit(rank);
+            break;
+        default:
+            std::cout << "pls enter a valid number (1-3)\n";
+            break;
+        }
         break;
-    case 2:
-        giveCardPlayer();
-        break;
-    case 3:
-        playerSplit(rank);
-        break;
+    
     default:
-        std::cout << "pls enter a valid number (1-3)\n";
         break;
     } 
 }
@@ -529,11 +561,11 @@ void Game::checkWinner()
     setPlayerHandValue();
     setDealerHandValue();
 
-    if (m_playerHandValue > m_dealerHandValue)
+    if (m_firstHandValue > m_dealerHandValue)
     {
         std::cout << "Player win\n";
     }
-    else if (m_playerHandValue == m_dealerHandValue)
+    else if (m_firstHandValue == m_dealerHandValue)
     {
         std::cout << "Execo\n";
     }

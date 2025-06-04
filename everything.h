@@ -100,23 +100,27 @@ class Game{
 private:
 
     Deck m_gamePile;
-    int m_playerHandValue {0};
-    int m_splitedHandValue {0};
+    int m_firstHandValue {0};
+    int m_secondHandValue {0};
     int m_dealerHandValue {0};
 
     Card::Rank rank;
         
 public:
 
-    std::vector<Card> playerHand;
-    std::vector<Card> splitedHand;
-    bool isHandSplit {false};
+    std::vector<Card> firstHand;
+    std::vector<Card> secondHand;
+    std::vector<Card> thirdHand;
+    std::vector<Card> fourthHand;
+    bool firstSplit {false};
+    bool secondSplit {false};
+    bool thirdSplit {false};
     void giveCardPlayer();
     int setPlayerHandValue();
     void printPlayerHand();
     void displayPlayerHand();
     bool playerStand();
-    Card playerSplit(Card::Rank);
+    void playerSplit(Card::Rank);
     void playerSurrender();
     void playerChoices(bool& playerchoice);
     bool playerLoose {false};
