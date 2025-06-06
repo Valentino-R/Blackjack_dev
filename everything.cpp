@@ -318,6 +318,31 @@ int Hand::calcHandValue()
     return m_value;
 }
 
+Hand Player::chooseHand()
+{
+    std::cout << "Choose your active hand 1-4 : ";
+    int hand;
+    std::cin >> hand;
+    switch (hand)
+    {
+    case 1:
+        Hand* m_firstHand;
+        break;
+    case 2:
+        Hand* m_secondtHand;
+        break;
+    case 3:
+        Hand* m_thirdHand;
+        break;
+    case 4:
+        Hand* m_fourthHand;
+        break;
+    default:
+        std::cout << "pls enter a valid number (1-3)\n";
+        break;
+    }
+}
+
 //create a pile by instantiating a deck object, shuffeling it and assigning it to m_gamepile.
 void Game::createPile()
 {

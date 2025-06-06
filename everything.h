@@ -85,14 +85,16 @@ public:
 class Hand{
 private:
     
-    int m_value;
+    int m_value {0};
     std::vector<Card> m_cardInHand;
     Card::Rank rank;
+    bool m_isHandActive {false};
+    int handID {0};
     
 public:
     
     int calcHandValue();
-    void passTurn();
+    bool passTurn();
     void drawCard();
     void splitHand();
     void doubleDown();
@@ -102,7 +104,10 @@ public:
 class Player{
 private:
     
-    Hand m_playerHand;
+    Hand m_firstHand;
+    Hand m_secondHand;
+    Hand m_thirdHand;
+    Hand m_fourthHand;
     std::vector<Hand> m_playerHands;
     int m_reserv {100};
     int m_bet {10};
@@ -111,28 +116,22 @@ public:
 
     void displayHand();
     Hand chooseHand();    
-    bool isSplit {false};
+    bool firstSplit {false};
+    bool secondSplit {false};
+    bool thirdSplit {false};
+    bool activHand {false};
 };
 
 class Game{
 private:
 
     Deck m_gamePile;
-    int m_firstHandValue {0};
-    int m_secondHandValue {0};
-    int m_dealerHandValue {0};
-
     Card::Rank rank;
         
 public:
 
-    std::vector<Card> firstHand;
-    std::vector<Card> secondHand;
-    std::vector<Card> thirdHand;
-    std::vector<Card> fourthHand;
-    bool firstSplit {false};
-    bool secondSplit {false};
-    bool thirdSplit {false};
+   
+    
     void giveCardPlayer();
     int setPlayerHandValue();
     void printPlayerHand();
