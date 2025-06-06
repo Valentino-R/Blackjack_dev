@@ -127,6 +127,7 @@ private:
 
     Deck m_gamePile;
     Card::Rank rank;
+    Hand playerActiveHand;
         
 public:
 

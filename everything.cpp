@@ -338,7 +338,7 @@ Hand Player::chooseHand()
         Hand* m_fourthHand;
         break;
     default:
-        std::cout << "pls enter a valid number (1-3)\n";
+        std::cout << "pls enter a valid number (1-4)\n";
         break;
     }
 }
